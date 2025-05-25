@@ -16,14 +16,9 @@ import { User } from './users/users.entity';
 import { Order } from './orders/order.entity';
 import { Product } from './products/products.entity';
 
-
-
-
-
-
 @Module({
-  imports:
-    [ConfigModule.forRoot({ isGlobal: true }),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     /*TypeOrmModule.forRoot({
       type: 'postgres',
       port: 5432,
@@ -34,7 +29,7 @@ import { Product } from './products/products.entity';
       entities: [User, Order, Product],
       autoLoadEntities: true,
       synchronize: true,
-    }),*/TypeOrmModule.forRootAsync({
+    }),*/ TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
@@ -49,18 +44,17 @@ import { Product } from './products/products.entity';
         logging: process.env.NODE_ENV === 'development',
       }),
     }),
-      UsersModule,
-      ProductsModule,
-      OrdersModule, AuthModule],
+    UsersModule,
+    ProductsModule,
+    OrdersModule,
+    AuthModule,
+  ],
 
   controllers: [AppController],
   providers: [AppService],
-
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware, CurrentUserMiddleware)
-      .forRoutes('*');
+    consumer.apply(LoggerMiddleware, CurrentUserMiddleware).forRoutes('*');
   }
 }

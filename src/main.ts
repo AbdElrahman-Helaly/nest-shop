@@ -5,7 +5,6 @@ import * as session from 'express-session';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-
   app.use(
     session({
       secret: '17119929911171100218',
